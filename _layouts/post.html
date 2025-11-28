@@ -2,68 +2,44 @@
 layout: default
 ---
 
-<!-- Blog Post Header -->
-<div id="hero-area" class="hero-area-bg" style="padding: 150px 0 80px;">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="contents text-center">
-                    <h1 class="head-title wow fadeInUp">{{ page.title }}</h1>
-                    <p class="wow fadeInUp" data-wow-delay="0.3s">
-                        <i class="lni-calendar"></i> {{ page.date | date: "%B %d, %Y" }}
-                        {% if page.author %} | <i class="lni-user"></i> {{ page.author }}{% endif %}
-                        {% if page.categories %} | <i class="lni-tag"></i> {{ page.categories | join: ", " }}{% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
+<div class="md-hero">
+    <div class="md-container">
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.date | date: "%B %d, %Y" }}
+            {% if page.categories %} • {{ page.categories | join: ", " }}{% endif %}
+            {% if page.read_time %} • {{ page.read_time }} min read{% endif %}
+        </p>
     </div>
 </div>
 
-<!-- Blog Post Content -->
-<section class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-12 mx-auto">
-                <article class="blog-post-content">
-                    {% if page.image %}
-                    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="img-fluid mb-4 rounded">
-                    {% endif %}
+<article class="md-section">
+    <div class="md-container" style="max-width: 800px;">
+        {% if page.image %}
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}"
+            style="width: 100%; border-radius: var(--md-sys-shape-corner-large); margin-bottom: 32px;">
+        {% endif %}
 
-                    {{ content }}
+        <div style="font-size: 16px; line-height: 1.6;">
+            {{ content }}
+        </div>
 
-                    {% if page.tags %}
-                    <div class="post-tags mt-5">
-                        <h5>Tags:</h5>
-                        {% for tag in page.tags %}
-                        <a href="{{ '/blog/tags/' | append: tag | relative_url }}" class="btn btn-sm btn-common mb-2">{{
-                            tag }}</a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                </article>
+        {% if page.tags %}
+        <div class="mt-4">
+            <h4>Tags:</h4>
+            {% for tag in page.tags %}
+            <span class="md-chip">{{ tag }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
 
-                <!-- Post Navigation -->
-                <div class="post-navigation mt-5 pt-5 border-top">
-                    <div class="row">
-                        {% if page.previous.url %}
-                        <div class="col-md-6">
-                            <a href="{{ page.previous.url | relative_url }}" class="btn btn-border">
-                                <i class="lni-arrow-left"></i> Previous: {{ page.previous.title }}
-                            </a>
-                        </div>
-                        {% endif %}
-                        {% if page.next.url %}
-                        <div class="col-md-6 text-right">
-                            <a href="{{ page.next.url | relative_url }}" class="btn btn-border">
-                                Next: {{ page.next.title }} <i class="lni-arrow-right"></i>
-                            </a>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+        <div class="mt-4"
+            style="display: flex; justify-content: space-between; padding-top: 32px; border-top: 1px solid var(--md-sys-color-outline-variant);">
+            {% if page.previous.url %}
+            <a href="{{ page.previous.url | relative_url }}" class="md-button md-button-outlined">← Previous</a>
+            {% endif %}
+            {% if page.next.url %}
+            <a href="{{ page.next.url | relative_url }}" class="md-button md-button-outlined">Next →</a>
+            {% endif %}
         </div>
     </div>
-</section>
+</article>

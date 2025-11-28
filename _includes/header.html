@@ -1,63 +1,21 @@
-<!-- Header Area wrapper Starts -->
-<header id="header-wrap">
-    <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar indigo">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-navbar"
-                    aria-controls="main-navbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                    <span class="icon-menu"></span>
-                    <span class="icon-menu"></span>
-                    <span class="icon-menu"></span>
-                </button>
-                <a href="{{ '/' | relative_url }}" class="navbar-brand"><img
-                        src="{{ '/assets/img/logo.png' | relative_url }}" alt="{{ site.title }}"></a>
-            </div>
-            <div class="collapse navbar-collapse" id="main-navbar">
-                <ul class="navbar-nav mr-auto w-100 justify-content-left clearfix">
-                    <li class="nav-item{% if page.url == '/' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/' | relative_url }}">Home</a>
-                    </li>
-                    <li class="nav-item{% if page.url contains '/projects' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/projects/' | relative_url }}">GitHub Repos</a>
-                    </li>
-                    <li class="nav-item{% if page.url contains '/packages' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/packages/' | relative_url }}">NPM Packages</a>
-                    </li>
-                    <li class="nav-item{% if page.url contains '/blog' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/blog/' | relative_url }}">Blog</a>
-                    </li>
-                    <li class="nav-item{% if page.url contains '/writings' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/writings/' | relative_url }}">Writings</a>
-                    </li>
-                    <li class="nav-item{% if page.url contains '/rotary' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/rotary/' | relative_url }}">Rotary</a>
-                    </li>
-                    <li class="nav-item{% if page.url contains '/about' %} active{% endif %}">
-                        <a class="nav-link" href="{{ '/about.html' | relative_url }}">About</a>
-                    </li>
-                </ul>
-                <div class="btn-sing float-right">
-                    <a class="btn btn-border" href="#contact">Contact</a>
-                </div>
-            </div>
-        </div>
+<nav class="md-top-app-bar">
+    <div class="md-top-app-bar-content">
+        <a href="{{ '/' | relative_url }}" class="md-top-app-bar-title">
+            {{ site.title }}
+        </a>
 
-        <!-- Mobile Menu Start -->
-        <ul class="mobile-menu navbar-nav">
-            <li><a class="page-scroll" href="{{ '/' | relative_url }}">Home</a></li>
-            <li><a class="page-scroll" href="{{ '/projects/' | relative_url }}">GitHub Repos</a></li>
-            <li><a class="page-scroll" href="{{ '/packages/' | relative_url }}">NPM Packages</a></li>
-            <li><a class="page-scroll" href="{{ '/blog/' | relative_url }}">Blog</a></li>
-            <li><a class="page-scroll" href="{{ '/writings/' | relative_url }}">Writings</a></li>
-            <li><a class="page-scroll" href="{{ '/rotary/' | relative_url }}">Rotary</a></li>
-            <li><a class="page-scroll" href="{{ '/about.html' | relative_url }}">About</a></li>
+        <ul class="md-top-app-bar-nav">
+            <li><a href="{{ '/' | relative_url }}" {% if page.url=='/' %}class="active" {% endif %}>Home</a></li>
+            <li><a href="{{ '/projects/' | relative_url }}" {% if page.url contains '/projects' %}class="active" {%
+                    endif %}>Projects</a></li>
+            <li><a href="{{ '/packages/' | relative_url }}" {% if page.url contains '/packages' %}class="active" {%
+                    endif %}>Packages</a></li>
+            <li><a href="{{ '/blog/' | relative_url }}" {% if page.url contains '/blog' %}class="active" {% endif
+                    %}>Blog</a></li>
+            <li><a href="{{ '/writings/' | relative_url }}" {% if page.url contains '/writings' %}class="active" {%
+                    endif %}>Writings</a></li>
+            <li><a href="{{ '/rotary/' | relative_url }}" {% if page.url contains '/rotary' %}class="active" {% endif
+                    %}>Rotary</a></li>
         </ul>
-        <!-- Mobile Menu End -->
-
-    </nav>
-    <!-- Navbar End -->
-</header>
-<!-- Header Area wrapper End -->
+    </div>
+</nav>

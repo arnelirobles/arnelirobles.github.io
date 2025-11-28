@@ -2,65 +2,20 @@
 layout: default
 ---
 
-<!-- Writing Header -->
-<div id="hero-area" class="hero-area-bg" style="padding: 150px 0 80px;">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-lg-8 mx-auto">
-                <div class="contents text-center">
-                    <h1 class="head-title wow fadeInUp">{{ page.title }}</h1>
-                    {% if page.subtitle %}
-                    <h3 class="wow fadeInUp" data-wow-delay="0.2s">{{ page.subtitle }}</h3>
-                    {% endif %}
-                    <p class="wow fadeInUp" data-wow-delay="0.3s">
-                        <i class="lni-calendar"></i> {{ page.date | date: "%B %Y" }}
-                        {% if page.read_time %} | <i class="lni-timer"></i> {{ page.read_time }} min read{% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
+<div class="md-hero">
+    <div class="md-container">
+        <h1>{{ page.title }}</h1>
+        {% if page.subtitle %}
+        <p>{{ page.subtitle }}</p>
+        {% endif %}
+        <p>{{ page.date | date: "%B %Y" }}{% if page.read_time %} • {{ page.read_time }} min read{% endif %}</p>
     </div>
 </div>
 
-<!-- Writing Content -->
-<section class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-xl-8 mx-auto">
-                <article class="writing-content" style="font-size: 1.1rem; line-height: 1.8;">
-                    {% if page.excerpt %}
-                    <div class="writing-excerpt p-4 mb-5"
-                        style="background: #f8f9fa; border-left: 4px solid #5867dd; border-radius: 4px;">
-                        <p class="lead mb-0">{{ page.excerpt }}</p>
-                    </div>
-                    {% endif %}
-
-                    {{ content }}
-
-                    {% if page.conclusion %}
-                    <div class="writing-conclusion mt-5 p-4" style="background: #f8f9fa; border-radius: 4px;">
-                        <h3>Conclusion</h3>
-                        {{ page.conclusion }}
-                    </div>
-                    {% endif %}
-                </article>
-
-                <!-- Share Section -->
-                <div class="share-section mt-5 pt-5 border-top text-center">
-                    <h4>Share this writing</h4>
-                    <div class="social-share mt-3">
-                        <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
-                            target="_blank" class="btn btn-common mr-2">
-                            <i class="lni-twitter-filled"></i> Twitter
-                        </a>
-                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url | url_encode }}"
-                            target="_blank" class="btn btn-common mr-2">
-                            <i class="lni-linkedin-filled"></i> LinkedIn
-                        </a>
-                    </div>
-                </div>
-            </div>
+<article class="md-section">
+    <div class="md-container" style="max-width: 900px;">
+        <div style="font-size: 18px; line-height: 1.8;">
+            {{ content }}
         </div>
     </div>
-</section>
+</article>

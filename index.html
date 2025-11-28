@@ -2,193 +2,111 @@
 layout: default
 ---
 
-<!-- Hero Area Start -->
-<div id="hero-area" class="hero-area-bg">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-12">
-                <div class="contents text-center">
-                    <h2 class="head-title wow fadeInUp">{{ site.title }}</h2>
-                    <h4 class="wow fadeInUp" data-wow-delay="0.2s">{{ site.description }}</h4>
-                    <div class="header-button wow fadeInUp" data-wow-delay="0.3s">
-                        <a href="#projects" class="btn btn-common">View Projects</a>
-                        <a href="{{ '/blog/' | relative_url }}" class="btn btn-border">Read Blog</a>
-                    </div>
-                </div>
-            </div>
+<div class="md-hero">
+    <div class="md-container">
+        <h1>{{ site.title }}</h1>
+        <p>{{ site.description }}</p>
+        <div class="mt-4">
+            <a href="#projects" class="md-button md-button-filled">View Projects</a>
+            <a href="{{ '/blog/' | relative_url }}" class="md-button md-button-outlined">Read Blog</a>
         </div>
     </div>
 </div>
-<!-- Hero Area End -->
 
-<!-- Featured Projects Section Start -->
-<section id="projects" class="section-padding">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2 class="section-title wow fadeInDown" data-wow-delay="0.3s">Featured Projects</h2>
-            <p>Open source repositories and NPM packages</p>
-        </div>
-        <div class="row">
-            <!-- GitHub Repos -->
-            {% assign featured_repos = site.data.github_repos | where: "featured", true | slice: 0, 2 %}
+<!-- Projects Section -->
+<section class="md-section" id="projects">
+    <div class="md-container">
+        <h2 class="md-section-title">Featured Projects</h2>
+
+        <div class="md-grid md-grid-2">
+            {% assign featured_repos = site.data.github_repos | where: "featured", true | slice: 0, 4 %}
             {% for repo in featured_repos %}
-            <div class="col-md-6 col-lg-6 col-xs-12">
-                <div class="repo-item wow fadeInRight" data-wow-delay="{{ forloop.index | times: 0.3 }}s">
-                    <div class="card" style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                        <div class="card-body">
-                            <div class="icon mb-3">
-                                <i class="lni-github" style="font-size: 3rem; color: #5867dd;"></i>
-                            </div>
-                            <h3><a href="{{ repo.url }}" target="_blank" rel="noopener">{{ repo.name }}</a></h3>
-                            <p>{{ repo.description }}</p>
-                            <div class="mt-3">
-                                {% if repo.language %}
-                                <span class="badge badge-primary">{{ repo.language }}</span>
-                                {% endif %}
-                                {% for topic in repo.topics limit:3 %}
-                                <span class="badge badge-secondary">{{ topic }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
+            <div class="md-card">
+                <div class="md-card-title">{{ repo.name }}</div>
+                <p class="md-card-subtitle">{{ repo.description }}</p>
+
+                {% if repo.language %}
+                <span class="md-chip md-chip-primary">{{ repo.language }}</span>
+                {% endif %}
+
+                {% for topic in repo.topics limit:3 %}
+                <span class="md-chip">{{ topic }}</span>
+                {% endfor %}
+
+                <div class="mt-4">
+                    <a href="{{ repo.url }}" target="_blank" class="md-button md-button-filled">View on GitHub</a>
                 </div>
             </div>
             {% endfor %}
         </div>
+
         <div class="text-center mt-4">
-            <a href="{{ '/projects/' | relative_url }}" class="btn btn-common">View All Projects</a>
-            <a href="{{ '/packages/' | relative_url }}" class="btn btn-border">NPM Packages</a>
+            <a href="{{ '/projects/' | relative_url }}" class="md-button md-button-outlined">All Repositories</a>
+            <a href="{{ '/packages/' | relative_url }}" class="md-button md-button-outlined">NPM Packages</a>
         </div>
     </div>
 </section>
-<!-- Featured Projects Section End -->
 
-<!-- Recent Blog Posts Section Start -->
-<section class="section-padding" style="background: #f8f9fa;">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2 class="section-title wow fadeInDown" data-wow-delay="0.3s">Recent Blog Posts</h2>
-            <p>Latest articles and tutorials</p>
-        </div>
-        <div class="row">
+<!-- Blog Posts Section -->
+<section class="md-section" style="background-color: var(--md-sys-color-surface-variant);">
+    <div class="md-container">
+        <h2 class="md-section-title">Recent Blog Posts</h2>
+
+        <div class="md-grid md-grid-3">
             {% for post in site.posts limit:3 %}
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="blog-item wow fadeInUp" data-wow-delay="{{ forloop.index | times: 0.2 }}s">
-                    <div class="card h-100" style="border-radius: 8px;">
-                        <div class="card-body">
-                            <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
-                            <p class="text-muted small">
-                                <i class="lni-calendar"></i> {{ post.date | date: "%B %d, %Y" }}
-                            </p>
-                            <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
-                            <a href="{{ post.url | relative_url }}" class="btn btn-border btn-sm">Read More</a>
-                        </div>
-                    </div>
+            <div class="md-card">
+                <div class="md-card-title">{{ post.title }}</div>
+                <p class="md-card-subtitle">{{ post.date | date: "%B %d, %Y" }}</p>
+                <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                <div class="mt-4">
+                    <a href="{{ post.url | relative_url }}" class="md-button md-button-outlined">Read More</a>
                 </div>
             </div>
             {% endfor %}
 
             {% if site.posts.size == 0 %}
-            <div class="col-12 text-center">
-                <p class="text-muted">No blog posts yet. Check back soon!</p>
+            <div class="md-card">
+                <div class="md-card-title">Coming Soon</div>
+                <p>New blog posts coming soon. Check back later!</p>
             </div>
             {% endif %}
         </div>
+
         <div class="text-center mt-4">
-            <a href="{{ '/blog/' | relative_url }}" class="btn btn-common">View All Posts</a>
+            <a href="{{ '/blog/' | relative_url }}" class="md-button md-button-filled">View All Posts</a>
         </div>
     </div>
 </section>
-<!-- Recent Blog Posts Section End -->
 
-<!-- About Section Start -->
-<section id="about" class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="text-wrapper wow fadeInLeft" data-wow-delay="0.3s">
-                    <h2 class="title-hl">About Me</h2>
-                    <p>Full-stack developer passionate about creating elegant solutions to complex problems. Experienced
-                        in TypeScript, React Native, Angular, and modern web technologies.</p>
-                    <p>Active in open source development and community service through Rotary International.</p>
-                    <div class="mt-4">
-                        <a href="{{ '/about.html' | relative_url }}" class="btn btn-common">Learn More</a>
-                        <a href="{{ '/rotary/' | relative_url }}" class="btn btn-border">Rotary Activities</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-12 col-sm-12">
-                <div class="skills-wrapper wow fadeInRight" data-wow-delay="0.3s">
-                    <h3>Technical Skills</h3>
-                    <div class="skill-item mb-3">
-                        <strong>TypeScript / JavaScript</strong>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 95%; background: #5867dd;"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item mb-3">
-                        <strong>React Native / React</strong>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 90%; background: #5867dd;"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item mb-3">
-                        <strong>Angular / Blazor</strong>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 85%; background: #5867dd;"></div>
-                        </div>
-                    </div>
-                    <div class="skill-item mb-3">
-                        <strong>PostgreSQL / Databases</strong>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: 88%; background: #5867dd;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- About Section End -->
+<!-- About Section -->
+<section class="md-section">
+    <div class="md-container">
+        <h2 class="md-section-title">About</h2>
 
-<!-- Contact Section Start -->
-<section id="contact" class="section-padding" style="background: #f8f9fa;">
-    <div class="container">
-        <div class="section-header text-center">
-            <h2 class="section-title wow fadeInDown" data-wow-delay="0.3s">Get In Touch</h2>
-        </div>
-        <div class="row">
-            <div class="col-md-8 mx-auto text-center">
-                <p class="lead">Interested in collaboration or have a question? Feel free to reach out!</p>
-                <div class="social-icon mt-4">
-                    {% if site.author.github %}
-                    <a class="github" href="https://github.com/{{ site.author.github }}" target="_blank" rel="noopener">
-                        <i class="lni-github-filled"></i>
-                    </a>
-                    {% endif %}
-                    {% if site.author.linkedin %}
-                    <a class="linkedin" href="https://linkedin.com/in/{{ site.author.linkedin }}" target="_blank"
-                        rel="noopener">
-                        <i class="lni-linkedin-filled"></i>
-                    </a>
-                    {% endif %}
-                    {% if site.author.twitter %}
-                    <a class="twitter" href="https://twitter.com/{{ site.author.twitter }}" target="_blank"
-                        rel="noopener">
-                        <i class="lni-twitter-filled"></i>
-                    </a>
-                    {% endif %}
-                </div>
-                {% if site.author.email %}
+        <div class="md-grid md-grid-2">
+            <div>
+                <h3>Full-Stack Developer</h3>
+                <p>Passionate about creating elegant solutions to complex problems. Experienced in TypeScript, React
+                    Native, Angular, and modern web technologies.</p>
+                <p>Active in open source development and community service through Rotary International.</p>
                 <div class="mt-4">
-                    <a href="mailto:{{ site.author.email }}" class="btn btn-common">
-                        <i class="lni-envelope"></i> Email Me
-                    </a>
+                    <a href="{{ '/rotary/' | relative_url }}" class="md-button md-button-filled">Rotary Activities</a>
                 </div>
-                {% endif %}
+            </div>
+
+            <div class="md-card">
+                <h4 class="md-card-title">Quick Links</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin: 12px 0;"><a href="{{ '/projects/' | relative_url }}">→ GitHub Repositories</a>
+                    </li>
+                    <li style="margin: 12px 0;"><a href="{{ '/packages/' | relative_url }}">→ NPM Packages</a></li>
+                    <li style="margin: 12px 0;"><a href="{{ '/writings/' | relative_url }}">→ Long-form Writings</a>
+                    </li>
+                    {% if site.author.github %}<li style="margin: 12px 0;"><a
+                            href="https://github.com/{{ site.author.github }}" target="_blank">→ GitHub Profile</a></li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </div>
 </section>
-<!-- Contact Section End -->
