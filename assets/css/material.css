@@ -424,3 +424,114 @@ code {
     padding-top: 32px;
     padding-bottom: 32px;
 }
+/* Article Content - Optimal Reading Experience */
+.md-article-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.md-article-image {
+  width: 100%;
+  border-radius: var(--md-sys-shape-corner-large);
+  margin-bottom: 32px;
+  box-shadow: var(--md-sys-elevation-level1);
+}
+
+.md-article-body {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--md-sys-color-on-background);
+}
+
+.md-article-body h1,
+.md-article-body h2,
+.md-article-body h3,
+.md-article-body h4 {
+  margin-top: 40px;
+  margin-bottom: 16px;
+  color: var(--md-sys-color-on-surface);
+}
+
+.md-article-body h1:first-child,
+.md-article-body h2:first-child,
+.md-article-body h3:first-child {
+  margin-top: 0;
+}
+
+.md-article-body p {
+  margin-bottom: 24px;
+}
+
+.md-article-body ul,
+.md-article-body ol {
+  margin-bottom: 24px;
+  padding-left: 32px;
+}
+
+.md-article-body li {
+  margin-bottom: 8px;
+  line-height: 1.75;
+}
+
+.md-article-body blockquote {
+  margin: 32px 0;
+  padding: 16px 24px;
+  border-left: 4px solid var(--md-sys-color-primary);
+  background-color: var(--md-sys-color-surface-variant);
+  border-radius: var(--md-sys-shape-corner-small);
+  font-style: italic;
+}
+
+.md-article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--md-sys-shape-corner-medium);
+  margin: 24px 0;
+}
+
+.md-article-body pre {
+  margin: 24px 0;
+}
+
+.md-article-tags {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.md-article-tags h4 {
+  margin-bottom: 16px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.md-article-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+@media (max-width: 768px) {
+  .md-article-content {
+    padding: 0 16px;
+  }
+  
+  .md-article-body {
+    font-size: 16px;
+  }
+  
+  .md-article-navigation {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .md-article-navigation a,
+  .md-article-navigation span {
+    width: 100%;
+    text-align: center;
+  }
+}

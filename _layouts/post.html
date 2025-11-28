@@ -13,33 +13,39 @@ layout: default
 </div>
 
 <article class="md-section">
-    <div class="md-container" style="max-width: 800px;">
-        {% if page.image %}
-        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}"
-            style="width: 100%; border-radius: var(--md-sys-shape-corner-large); margin-bottom: 32px;">
-        {% endif %}
-
-        <div style="font-size: 16px; line-height: 1.6;">
-            {{ content }}
-        </div>
-
-        {% if page.tags %}
-        <div class="mt-4">
-            <h4>Tags:</h4>
-            {% for tag in page.tags %}
-            <span class="md-chip">{{ tag }}</span>
-            {% endfor %}
-        </div>
-        {% endif %}
-
-        <div class="mt-4"
-            style="display: flex; justify-content: space-between; padding-top: 32px; border-top: 1px solid var(--md-sys-color-outline-variant);">
-            {% if page.previous.url %}
-            <a href="{{ page.previous.url | relative_url }}" class="md-button md-button-outlined">← Previous</a>
+    <div class="md-container">
+        <!-- Material Design optimal reading container -->
+        <div class="md-article-content">
+            {% if page.image %}
+            <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="md-article-image">
             {% endif %}
-            {% if page.next.url %}
-            <a href="{{ page.next.url | relative_url }}" class="md-button md-button-outlined">Next →</a>
+
+            <div class="md-article-body">
+                {{ content }}
+            </div>
+
+            {% if page.tags %}
+            <div class="md-article-tags">
+                <h4>Tags:</h4>
+                <div>
+                    {% for tag in page.tags %}
+                    <span class="md-chip">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
             {% endif %}
+
+            <nav class="md-article-navigation">
+                {% if page.previous.url %}
+                <a href="{{ page.previous.url | relative_url }}" class="md-button md-button-outlined">← Previous</a>
+                {% else %}
+                <span></span>
+                {% endif %}
+
+                {% if page.next.url %}
+                <a href="{{ page.next.url | relative_url }}" class="md-button md-button-outlined">Next →</a>
+                {% endif %}
+            </nav>
         </div>
     </div>
 </article>
