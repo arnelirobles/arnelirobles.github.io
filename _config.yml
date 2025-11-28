@@ -1,0 +1,90 @@
+# Site Settings
+title: Arnel I. Robles
+description: Full-stack developer, open-source contributor, and community builder
+url: https://arnelrobles.com
+baseurl: ""
+
+# Author Information
+author:
+  name: Arnel I. Robles
+  email: arnel@arnelrobles.com
+  github: arnelirobles
+  linkedin: arnelirobles
+  twitter: arnelirobles
+
+# Build Settings
+markdown: kramdown
+highlighter: rouge
+permalink: /blog/:year/:month/:day/:title/
+
+# Collections
+collections:
+  writings:
+    output: true
+    permalink: /writings/:title/
+  rotary:
+    output: true
+    permalink: /rotary/:title/
+
+# Defaults
+defaults:
+  # Blog posts
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: post
+      author: Arnel I. Robles
+  # Writings
+  - scope:
+      path: "_writings"
+      type: writings
+    values:
+      layout: writing
+  # Rotary
+  - scope:
+      path: "_rotary"
+      type: rotary
+    values:
+      layout: rotary
+  # Pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: page
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - README.md
+  - license.txt
+
+# Pagination
+paginate: 10
+paginate_path: "/blog/page:num/"
+
+# SEO
+twitter:
+  username: arnelirobles
+  card: summary_large_image
+
+social:
+  name: Arnel I. Robles
+  links:
+    - https://github.com/arnelirobles
+    - https://www.linkedin.com/in/arnelirobles
+
+# Theme Settings
+show_excerpts: true

@@ -1,0 +1,39 @@
+# GitHub Repositories Data
+# Add your repositories here
+
+- name: rnxORM
+  description: Lightweight TypeScript ORM for React Native with PostgreSQL support
+  url: https://github.com/arnelirobles/rnxORM
+  stars: 0
+  language: TypeScript
+  topics:
+    - orm
+    - typescript
+    - react-native
+    - postgresql
+  featured: true
+
+- name: HTMLGames
+  description: Collection of 5 HTML5 games with dopamine reward systems
+  url: https://github.com/arnelirobles/HTMLGames
+  stars: 0
+  language: JavaScript
+  topics:
+    - html5-game
+    - javascript
+    - game-development
+  featured: true
+
+- name: arnelirobles.github.io
+  description: Personal portfolio and blog website
+  url: https://github.com/arnelirobles/arnelirobles.github.io
+  stars: 0
+  language: HTML
+  topics:
+    - portfolio
+    - jekyll
+    - github-pages
+  featured: false
+
+# Add more repositories here
+# You can fetch this data dynamically from GitHub API if needed

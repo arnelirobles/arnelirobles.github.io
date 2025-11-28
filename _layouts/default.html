@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+
+  {% seo %}
+  {% feed_meta %}
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/bootstrap.min.css' | relative_url }}">
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/fonts/line-icons.css' | relative_url }}">
+  <!-- Slicknav -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/slicknav.css' | relative_url }}">
+  <!-- Owl carousel -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/owl.carousel.min.css' | relative_url }}">
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/owl.theme.css' | relative_url }}">
+  <!-- Slick Slider -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/slick.css' | relative_url }}">
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/slick-theme.css' | relative_url }}">
+  <!-- Animate -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/animate.css' | relative_url }}">
+  <!-- Main Style -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/main.css' | relative_url }}">
+  <!-- Responsive Style -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/responsive.css' | relative_url }}">
+  <!-- Custom Jekyll Styles -->
+  <link rel="stylesheet" type="text/css" href="{{ '/assets/css/custom.css' | relative_url }}">
+</head>
+
+<body>
+
+  {% include header.html %}
+
+  {{ content }}
+
+  {% include footer.html %}
+
+  <!-- Go to Top Link -->
+  <a href="#" class="back-to-top">
+    <i class="lni-arrow-up"></i>
+  </a>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="loader" id="loader-1"></div>
+  </div>
+  <!-- End Preloader -->
+
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="{{ '/assets/js/jquery-min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/popper.min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/bootstrap.min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/owl.carousel.min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/slick.min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/wow.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/jquery.nav.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/scrolling-nav.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/jquery.easing.min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/jquery.slicknav.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/form-validator.min.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/contact-form-script.min.js' | relative_url }}"></script>
+
+  <!-- Ko-fi Donation Widget -->
+  <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+  <script>
+    kofiWidgetOverlay.draw('arnelirobles', {
+      'type': 'floating-chat',
+      'floating-chat.donateButton.text': 'Support me',
+      'floating-chat.donateButton.background-color': '#323842',
+      'floating-chat.donateButton.text-color': '#fff'
+    });
+  </script>
+</body>
+
+</html>

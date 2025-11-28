@@ -1,0 +1,32 @@
+# NPM Packages Data
+# Add your published NPM packages here
+
+- name: rnxorm
+  description: Lightweight TypeScript ORM for React Native with PostgreSQL
+  npm_url: https://www.npmjs.com/package/rnxorm
+  github_url: https://github.com/arnelirobles/rnxORM
+  version: 1.0.0
+  downloads: 0
+  keywords:
+    - orm
+    - typescript
+    - react-native
+    - postgresql
+    - database
+  featured: true
+
+- name: dopaminejs
+  description: Dopamine-driven reward system for HTML5 games
+  npm_url: https://www.npmjs.com/package/dopaminejs
+  github_url: https://github.com/arnelirobles/dopaminejs
+  version: 1.0.0
+  downloads: 0
+  keywords:
+    - game-rewards
+    - html5-games
+    - particle-effects
+    - ui-components
+  featured: true
+
+# Add more packages here
+# You can fetch download stats from NPM API if needed

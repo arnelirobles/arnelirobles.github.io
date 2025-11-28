@@ -1,0 +1,229 @@
+/* Custom Jekyll Styles */
+
+/* Blog Post Content Styling */
+.blog-post-content,
+.writing-content,
+.rotary-activity-content {
+  font-family: 'Georgia', serif;
+  line-height: 1.8;
+}
+
+.blog-post-content h1,
+.blog-post-content h2,
+.blog-post-content h3,
+.writing-content h1,
+.writing-content h2,
+.writing-content h3 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.blog-post-content pre,
+.writing-content pre {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-left: 4px solid #5867dd;
+}
+
+.blog-post-content code,
+.writing-content code {
+  background: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.blog-post-content pre code,
+.writing-content pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* Repository and Package Cards */
+.repo-card .card,
+.package-card .card,
+.rotary-card .card,
+.writing-card .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.repo-card .card:hover,
+.package-card .card:hover,
+.rotary-card .card:hover,
+.writing-card .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15) !important;
+}
+
+.repo-card .card-title a,
+.package-card .card-title a,
+.writing-card .card-title a {
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.repo-card .card-title a:hover,
+.package-card .card-title a:hover,
+.writing-card .card-title a:hover {
+  color: #5867dd;
+}
+
+/* Badge Styling */
+.badge {
+  font-weight: 500;
+  padding: 0.4em 0.8em;
+  border-radius: 4px;
+}
+
+.badge-primary {
+  background-color: #5867dd;
+}
+
+.badge-secondary {
+  background-color: #6c757d;
+}
+
+.badge-success {
+  background-color: #28a745;
+}
+
+/* Post Meta Information */
+.post-tags a {
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+/* Social Share Buttons */
+.social-share .btn {
+  margin: 0.5rem;
+}
+
+/* Post Navigation */
+.post-navigation .btn {
+  white-space: normal;
+  text-align: left;
+}
+
+/* Repository Topics */
+.repo-topics .badge {
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Package Keywords */
+.package-keywords .badge {
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+}
+
+/* Rotary Activity Styling */
+.activity-summary {
+  border-radius: 8px;
+}
+
+.activity-gallery img {
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.activity-gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* Card Footer Styling */
+.card-footer {
+  border-top: 1px solid #e9ecef;
+}
+
+.card-footer code {
+  color: #e83e8c;
+  background: #f8f9fa;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .blog-post-content,
+  .writing-content {
+    font-size: 1rem;
+  }
+  
+  .head-title {
+    font-size: 1.8rem !important;
+  }
+}
+
+/* Hero Section for Content Pages */
+#hero-area {
+  position: relative;
+  background-image: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#hero-area .overlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Writing Excerpt Styling */
+.writing-excerpt {
+  font-style: italic;
+}
+
+.writing-conclusion {
+  font-weight: 500;
+}
+
+/* Improve readability of content */
+.blog-post-content img,
+.writing-content img,
+.rotary-activity-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Tables in content */
+.blog-post-content table,
+.writing-content table,
+.rotary-activity-content table {
+  width: 100%;
+  margin: 1.5rem 0;
+  border-collapse: collapse;
+}
+
+.blog-post-content table th,
+.writing-content table th,
+.rotary-activity-content table th {
+  background: #f8f9fa;
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.blog-post-content table td,
+.writing-content table td,
+.rotary-activity-content table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Blockquotes */
+.blog-post-content blockquote,
+.writing-content blockquote,
+.rotary-activity-content blockquote {
+  border-left: 4px solid #5867dd;
+  padding-left: 1.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #666;
+}

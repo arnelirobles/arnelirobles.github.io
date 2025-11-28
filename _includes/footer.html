@@ -1,0 +1,65 @@
+<!-- Footer Section Start -->
+<footer id="footer" class="footer-area section-padding">
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-delay="0.2s">
+                    <div class="footer-logo mb-3">
+                        <img src="{{ '/assets/img/logo.png' | relative_url }}" alt="{{ site.title }}">
+                    </div>
+                    <p>{{ site.description }}</p>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-delay="0.4s">
+                    <h3 class="footer-titel">Projects</h3>
+                    <ul>
+                        <li><a href="{{ '/projects/' | relative_url }}">GitHub Repositories</a></li>
+                        <li><a href="{{ '/packages/' | relative_url }}">NPM Packages</a></li>
+                        <li><a href="{{ '/blog/' | relative_url }}">Blog Posts</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-delay="0.6s">
+                    <h3 class="footer-titel">About</h3>
+                    <ul>
+                        <li><a href="{{ '/about.html' | relative_url }}">About Me</a></li>
+                        <li><a href="{{ '/writings/' | relative_url }}">Writings</a></li>
+                        <li><a href="{{ '/rotary/' | relative_url }}">Rotary Activities</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12 wow fadeInUp" data-wow-delay="0.8s">
+                    <h3 class="footer-titel">Find me on</h3>
+                    <div class="social-icon">
+                        {% if site.author.github %}
+                        <a class="github" href="https://github.com/{{ site.author.github }}" target="_blank"
+                            rel="noopener">
+                            <i class="lni-github-filled"></i>
+                        </a>
+                        {% endif %}
+                        {% if site.author.linkedin %}
+                        <a class="linkedin" href="https://linkedin.com/in/{{ site.author.linkedin }}" target="_blank"
+                            rel="noopener">
+                            <i class="lni-linkedin-filled"></i>
+                        </a>
+                        {% endif %}
+                        {% if site.author.twitter %}
+                        <a class="twitter" href="https://twitter.com/{{ site.author.twitter }}" target="_blank"
+                            rel="noopener">
+                            <i class="lni-twitter-filled"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Section End -->
+
+<section id="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Copyright © {{ 'now' | date: "%Y" }} {{ site.author.name }}. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+</section>
