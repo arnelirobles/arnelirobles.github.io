@@ -1,0 +1,296 @@
+---
+layout: default
+title: rnxJS Interactive Demo
+description: Live examples of reactive data binding with rnxJS
+---
+
+<div class="md-hero" style="background: linear-gradient(135deg, #1976D2, #673AB7);">
+    <div class="md-container">
+        <h1 style="color: white;">✨ rnxJS Interactive Demo</h1>
+        <p style="color: rgba(255,255,255,0.9);">Minimalist reactive data binding for vanilla JavaScript</p>
+    </div>
+</div>
+
+<section class="md-section">
+    <div class="md-container">
+        <h2 class="md-section-title">What is rnxJS?</h2>
+        <p style="max-width: 800px;">
+            rnxJS is a lightweight reactive data binding library that brings the power of reactive programming
+            to vanilla JavaScript. Built with simplicity in mind, it provides a clean API for creating reactive
+            state that automatically updates your UI when data changes.
+        </p>
+
+        <div class="md-grid md-grid-3" style="margin-top: 32px;">
+            <RnxCard title="🚀 Lightweight">
+                <p>Just 16kb bundled - no bloat, no dependencies</p>
+            </RnxCard>
+            <RnxCard title="⚡ Reactive">
+                <p>Automatic UI updates when state changes</p>
+            </RnxCard>
+            <RnxCard title="🎯 Simple API">
+                <p>Easy to learn, powerful to use</p>
+            </RnxCard>
+        </div>
+    </div>
+</section>
+
+<section class="md-section" style="background-color: var(--md-sys-color-surface-variant);">
+    <div class="md-container">
+        <h2 class="md-section-title">Live Examples</h2>
+
+        <!-- Example 1: Counter -->
+        <RnxCard title="Example 1: Reactive Counter" subtitle="Click the buttons to see reactive state in action">
+            <div id="counter-demo" style="padding: 24px; text-align: center;">
+                <div
+                    style="font-size: 48px; font-weight: 500; color: var(--md-sys-color-primary); margin-bottom: 16px;">
+                    <span id="counter-value">0</span>
+                </div>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <div id="btn-inc">
+                        <RnxButton label="Increment" variant="primary"></RnxButton>
+                    </div>
+                    <div id="btn-dec">
+                        <RnxButton label="Decrement" variant="outline-primary"></RnxButton>
+                    </div>
+                    <div id="btn-reset">
+                        <RnxButton label="Reset" variant="outline-primary"></RnxButton>
+                    </div>
+                </div>
+            </div>
+
+            <details style="margin-top: 16px;">
+                <summary style="cursor: pointer; font-weight: 500; color: var(--md-sys-color-primary);">View Code
+                </summary>
+                <pre
+                    style="background: #f5f5f5; padding: 16px; border-radius: 8px; overflow-x: auto; margin-top: 12px;"><code>import { createReactiveState } from '@arnelirobles/rnxjs';
+
+const state = createReactiveState({ count: 0 });
+
+// Subscribe to changes
+state.subscribe('count', (value) => {
+  document.getElementById('counter-value').textContent = value;
+});
+
+// Update state - UI updates automatically
+document.getElementById('increment-btn').onclick = () => state.count++;
+document.getElementById('decrement-btn').onclick = () => state.count--;
+document.getElementById('reset-btn').onclick = () => state.count = 0;</code></pre>
+            </details>
+        </RnxCard>
+
+        <!-- Example 2: Two-way Binding -->
+        <RnxCard title="Example 2: Two-Way Data Binding" subtitle="Type in the input below and watch the state update">
+            <div id="binding-demo" style="padding: 24px;">
+                <div style="margin-bottom: 16px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Your Name:</label>
+                    <div id="input-wrapper">
+                        <RnxInput placeholder="Enter your name..." id="name-input"></RnxInput>
+                    </div>
+                </div>
+                <div
+                    style="padding: 16px; background: var(--md-sys-color-primary-container); border-radius: 8px; color: var(--md-sys-color-on-primary-container);">
+                    <strong>Reactive Output:</strong>
+                    <div style="font-size: 24px; margin-top: 8px;">
+                        Hello, <span id="name-output">Guest</span>! 👋
+                    </div>
+                </div>
+                <div style="margin-top: 12px; font-size: 14px; color: var(--md-sys-color-on-surface-variant);">
+                    Characters: <strong id="char-count">0</strong>
+                </div>
+            </div>
+
+            <details style="margin-top: 16px;">
+                <summary style="cursor: pointer; font-weight: 500; color: var(--md-sys-color-primary);">View Code
+                </summary>
+                <pre
+                    style="background: #f5f5f5; padding: 16px; border-radius: 8px; overflow-x: auto; margin-top: 12px;"><code>const state = createReactiveState({ name: '' });
+
+// Input updates state
+document.getElementById('name-input').addEventListener('input', (e) => {
+  state.name = e.target.value;
+});
+
+// State updates output
+state.subscribe('name', (value) => {
+  const display = value || 'Guest';
+  document.getElementById('name-output').textContent = display;
+  document.getElementById('char-count').textContent = value.length;
+});</code></pre>
+            </details>
+        </RnxCard>
+
+        <!-- Example 3: List Management -->
+        <RnxCard title="Example 3: Reactive List" subtitle="Add items to see reactive list updates in action">
+            <div id="list-demo" style="padding: 24px;">
+                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                    <div id="todo-input-wrapper" style="flex: 1;">
+                        <RnxInput placeholder="Add a task..." id="todo-input"></RnxInput>
+                    </div>
+                    <div id="btn-add">
+                        <RnxButton label="Add" variant="primary"></RnxButton>
+                    </div>
+                </div>
+                <div id="todo-list" style="min-height: 100px;">
+                    <p style="color: var(--md-sys-color-on-surface-variant); text-align: center; padding: 32px;">
+                        No tasks yet. Add one above!
+                    </p>
+                </div>
+                <div
+                    style="margin-top: 16px; padding: 12px; background: var(--md-sys-color-tertiary-container); border-radius: 8px; color: var(--md-sys-color-on-tertiary-container);">
+                    Total tasks: <strong id="task-count">0</strong>
+                </div>
+            </div>
+
+            <details style="margin-top: 16px;">
+                <summary style="cursor: pointer; font-weight: 500; color: var(--md-sys-color-primary);">View Code
+                </summary>
+                <pre
+                    style="background: #f5f5f5; padding: 16px; border-radius: 8px; overflow-x: auto; margin-top: 12px;"><code>const state = createReactiveState({ todos: [] });
+
+// Add todo
+function addTodo() {
+  const input = document.getElementById('todo-input');
+  if (input.value.trim()) {
+    state.todos = [...state.todos, input.value];
+    input.value = '';
+  }
+}
+
+// Subscribe to list changes
+state.subscribe('todos', (todos) => {
+  const listEl = document.getElementById('todo-list');
+  listEl.innerHTML = todos.map((todo, i) => 
+    `<div class="todo-item">${i + 1}. ${todo}</div>`
+  ).join('') || '<p>No tasks yet</p>';
+  
+  document.getElementById('task-count').textContent = todos.length;
+});</code></pre>
+            </details>
+        </RnxCard>
+    </div>
+</section>
+
+<section class="md-section">
+    <div class="md-container">
+        <h2 class="md-section-title">Getting Started</h2>
+
+        <RnxCard title="Installation">
+            <pre
+                style="background: #263238; color: #AEDFF7; padding: 16px; border-radius: 8px; overflow-x: auto;"><code>npm install @arnelirobles/rnxjs</code></pre>
+        </RnxCard>
+
+        <div style="text-align: center; margin-top: 32px; display: flex; gap: 16px; justify-content: center;">
+            <a href="https://www.npmjs.com/package/@arnelirobles/rnxjs" target="_blank">
+                <RnxButton label="View on NPM →" variant="primary"></RnxButton>
+            </a>
+            <a href="https://github.com/arnelirobles/rnxjs" target="_blank">
+                <RnxButton label="GitHub Repository" variant="outline-primary"></RnxButton>
+            </a>
+        </div>
+    </div>
+</section>
+
+<script type="module">
+    import { createReactiveState } from 'https://cdn.jsdelivr.net/npm/@arnelirobles/rnxjs@latest/index.js';
+
+    // Wait for components to be hydrated
+    setTimeout(() => {
+        // Example 1: Counter
+        const counterState = createReactiveState({ count: 0 });
+        counterState.subscribe('count', (value) => {
+            document.getElementById('counter-value').textContent = value;
+        });
+
+        document.querySelector('#btn-inc .btn').onclick = () => counterState.count++;
+        document.querySelector('#btn-dec .btn').onclick = () => counterState.count--;
+        document.querySelector('#btn-reset .btn').onclick = () => counterState.count = 0;
+
+        // Example 2: Two-way Binding
+        const nameState = createReactiveState({ name: '' });
+        const nameInput = document.querySelector('#input-wrapper input') || document.querySelector('#input-wrapper .form-control');
+
+        if (nameInput) {
+            nameInput.addEventListener('input', (e) => {
+                nameState.name = e.target.value;
+            });
+        }
+
+        nameState.subscribe('name', (value) => {
+            const display = value || 'Guest';
+            document.getElementById('name-output').textContent = display;
+            document.getElementById('char-count').textContent = value.length;
+        });
+
+        // Example 3: Todo List
+        const todoState = createReactiveState({ todos: [] });
+
+        function addTodo() {
+            const wrapper = document.getElementById('todo-input-wrapper');
+            const input = wrapper ? (wrapper.querySelector('input') || wrapper.querySelector('.form-control')) : null;
+
+            if (input && input.value.trim()) {
+                // Use slice() to create a copy before spreading to avoid Symbol issues with the proxy
+                const newTodos = [...todoState.todos.slice(), input.value];
+                todoState.todos = newTodos;
+                input.value = '';
+            }
+        }
+
+        // Use event delegation for the button to ensure it works even after hydration
+        const btnWrapper = document.getElementById('btn-add');
+        if (btnWrapper) {
+            btnWrapper.addEventListener('click', (e) => {
+                if (e.target.closest('.btn') || e.target.tagName === 'BUTTON') {
+                    addTodo();
+                }
+            });
+        }
+
+        // Handle Enter key on input
+        const todoInputWrapper = document.getElementById('todo-input-wrapper');
+        if (todoInputWrapper) {
+            todoInputWrapper.addEventListener('keypress', (e) => {
+                if (e.target.tagName === 'INPUT' && e.key === 'Enter') {
+                    addTodo();
+                }
+            });
+        }
+
+        todoState.subscribe('todos', (todos) => {
+            const listEl = document.getElementById('todo-list');
+            if (todos.length === 0) {
+                listEl.innerHTML = '<p style="color: var(--md-sys-color-on-surface-variant); text-align: center; padding: 32px;">No tasks yet. Add one above!</p>';
+            } else {
+                listEl.innerHTML = todos.map((todo, i) =>
+                    `<div style="padding: 12px; margin: 8px 0; background: var(--md-sys-color-surface-variant); border-radius: 8px;">
+                    ${i + 1}. ${todo}
+                </div>`
+                ).join('');
+            }
+            document.getElementById('task-count').textContent = todos.length;
+        });
+    }, 500); // Small delay to ensure hydration
+</script>
+
+<style>
+    details summary {
+        padding: 12px;
+        background: var(--md-sys-color-surface-variant);
+        border-radius: 8px;
+        margin-bottom: 0;
+    }
+
+    details[open] summary {
+        border-radius: 8px 8px 0 0;
+    }
+
+    pre {
+        margin: 0;
+    }
+
+    code {
+        font-family: 'Roboto Mono', monospace;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+</style>
