@@ -1,22 +1,2 @@
 # Rotary Activities Data
 # Add your rotary club activities and events here
-
-- title: Community Food Drive 2024
-  date: 2024-11-15
-  club: Rotary Club of [Your City]
-  type: Community Service
-  description: Organized and executed a community food drive serving 500+ families
-
-- title: Youth Leadership Workshop
-  date: 2024-10-20
-  club: Rotary Club of [Your City]
-  type: Youth Service
-  description: Conducted leadership training for 50 high school students
-
-- title: Weekly Fellowship Meeting
-  date: 2024-11-01
-  club: Rotary Club of [Your City]
-  type: Fellowship
-  description: Regular club meeting with guest speaker on sustainable development
-
-# Add more activities here
