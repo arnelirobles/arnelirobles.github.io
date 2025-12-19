@@ -9,7 +9,7 @@
         "docs:preview": "vitepress preview docs"
     },
     "keywords": [],
-    "author": "Arneli Robles",
+    "author": "Arnel I. Robles",
     "license": "MIT",
     "devDependencies": {
         "vitepress": "^1.5.0",
