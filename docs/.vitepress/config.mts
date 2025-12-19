@@ -4,6 +4,7 @@ export default defineConfig({
     title: "Arnel I. Robles",
     description: "Personal blog, Open Source, and Full Stack Development from the Baryo",
     head: [['link', { rel: 'icon', href: '/logo.png' }]],
+    appearance: false,
     themeConfig: {
         logo: '/logo.png',
         nav: [
@@ -48,9 +49,6 @@ export default defineConfig({
                 }
             ]
         },
-        socialLinks: [
-            { icon: 'github', link: 'https://github.com/arnelirobles' }
-        ],
         footer: {
             message: 'Released under the MIT License.',
             copyright: 'Copyright © 2025-present Arnel I. Robles'
