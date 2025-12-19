@@ -1,10 +1,37 @@
 import { defineConfig } from 'vitepress'
+import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
     title: "Arnel I. Robles",
     description: "Personal blog, Open Source, and Full Stack Development from the Baryo",
     head: [['link', { rel: 'icon', href: '/logo.png' }]],
     appearance: false,
+    vite: {
+        plugins: [
+            VitePWA({
+                registerType: 'autoUpdate',
+                includeAssets: ['logo.png'],
+                manifest: {
+                    name: 'Arnel I. Robles',
+                    short_name: 'Arnel Robles',
+                    description: 'Personal blog, Open Source, and Full Stack Development from the Baryo',
+                    theme_color: '#ffffff',
+                    icons: [
+                        {
+                            src: 'logo.png',
+                            sizes: '192x192',
+                            type: 'image/png'
+                        },
+                        {
+                            src: 'logo.png',
+                            sizes: '512x512',
+                            type: 'image/png'
+                        }
+                    ]
+                }
+            })
+        ]
+    },
     themeConfig: {
         logo: '/logo.png',
         nav: [
@@ -45,6 +72,7 @@ export default defineConfig({
                     text: 'Literary Writing',
                     items: [
                         { text: 'Introduction', link: '/literary/' },
+                        { text: 'Podcast', link: '/literary/podcast' },
                     ]
                 }
             ]
