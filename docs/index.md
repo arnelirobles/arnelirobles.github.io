@@ -2,12 +2,12 @@
 layout: home
 
 hero:
-  name: BaryoDev
-  text: Developer from the Barrio
-  tagline: A fusion of sharp tech and rural soul.
+  name: Arneli Robles
+  text: Full Stack Developer
+  tagline: Open Source, Software Architecture, and Creative Writing.
   image:
     src: /logo.png
-    alt: BaryoDev Logo
+    alt: Arneli Robles Logo
   actions:
     - theme: brand
       text: Tech Articles

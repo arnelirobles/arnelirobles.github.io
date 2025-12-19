@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-    title: "BaryoDev",
-    description: "Developer from the Barrio - A mix of tech, reflections, news, and literary writing",
+    title: "Arneli Robles",
+    description: "Personal blog, Open Source, and Full Stack Development",
     head: [['link', { rel: 'icon', href: '/logo.png' }]],
     themeConfig: {
         logo: '/logo.png',
