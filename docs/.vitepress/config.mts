@@ -5,10 +5,7 @@ export default defineConfig({
     description: "Personal blog, Open Source, and Full Stack Development from the Baryo",
     head: [['link', { rel: 'icon', href: '/logo.png' }]],
     themeConfig: {
-        logo: {
-            light: '/logo-light.png',
-            dark: '/logo-dark.png'
-        },
+        logo: '/logo.png',
         nav: [
             { text: 'Home', link: '/' },
             { text: 'Tech', link: '/tech/' },
