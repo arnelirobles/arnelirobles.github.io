@@ -2,12 +2,12 @@
 layout: home
 
 hero:
-  name: Arneli Robles
-  text: Full Stack Developer
+  name: Arnel I. Robles
+  text: Full Stack Developer from the Baryo
   tagline: Open Source, Software Architecture, and Creative Writing.
   image:
     src: /logo.png
-    alt: Arneli Robles Logo
+    alt: Arnel I. Robles Logo
   actions:
     - theme: brand
       text: Tech Articles
