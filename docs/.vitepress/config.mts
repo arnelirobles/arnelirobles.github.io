@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-    title: "Arneli Robles",
-    description: "Personal blog, Open Source, and Full Stack Development",
+    title: "Arnel I. Robles",
+    description: "Personal blog, Open Source, and Full Stack Development from the Baryo",
     head: [['link', { rel: 'icon', href: '/logo.png' }]],
     themeConfig: {
         logo: '/logo.png',
@@ -53,7 +53,7 @@ export default defineConfig({
         ],
         footer: {
             message: 'Released under the MIT License.',
-            copyright: 'Copyright © 2025-present Arneli Robles'
+            copyright: 'Copyright © 2025-present Arnel I. Robles'
         }
     }
 })
