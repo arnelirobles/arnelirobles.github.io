@@ -6,7 +6,9 @@ hero:
   text: Full Stack Developer from the Baryo
   tagline: Open Source, Software Architecture, and Creative Writing.
   image:
-    src: /logo.png
+    src:
+      light: /logo-light.png
+      dark: /logo-dark.png
     alt: Arnel I. Robles Logo
   actions:
     - theme: brand
