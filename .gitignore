@@ -8,3 +8,7 @@ Gemfile.lock
 .DS_Store
 node_modules/
 assets/js/bundle.js
+
+# VitePress
+.vitepress/dist/
+.vitepress/cache/

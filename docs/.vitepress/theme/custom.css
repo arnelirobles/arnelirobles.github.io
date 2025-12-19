@@ -1,0 +1,37 @@
+:root {
+    --vp-c-brand-1: #3e2723;
+    /* Dark Roast Coffee */
+    --vp-c-brand-2: #211512;
+    /* Espresso */
+    --vp-c-brand-3: #5d4037;
+    /* Medium Roast */
+    --vp-c-brand-soft: rgba(62, 39, 35, 0.1);
+
+    --vp-home-hero-name-color: transparent;
+    --vp-home-hero-name-background: linear-gradient(135deg, #3e2723 0%, #2e4a3e 100%);
+    /* Terracotta to Forest Green */
+
+    --vp-c-bg: #ffffff;
+    /* Plain white */
+    --vp-c-text-1: #2c3e50;
+}
+
+.dark {
+    --vp-c-brand-1: #d17a61;
+    --vp-c-brand-2: #b35942;
+    --vp-c-brand-3: #e6a591;
+
+    --vp-c-bg: #1a1a1a;
+    --vp-home-hero-name-background: linear-gradient(135deg, #e6a591 0%, #4a7c59 100%);
+}
+
+.VPFeature {
+    border: 1px solid var(--vp-c-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.VPFeature:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border-color: var(--vp-c-brand-1);
+}
