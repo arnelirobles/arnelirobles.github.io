@@ -36,6 +36,7 @@ export default defineConfig({
         logo: '/logo.png',
         nav: [
             { text: 'Home', link: '/' },
+            { text: 'Blog', link: '/blog/' },
             { text: 'Tech', link: '/tech/' },
             { text: 'Reflections', link: '/reflections/' },
             { text: 'News', link: '/news/' },
