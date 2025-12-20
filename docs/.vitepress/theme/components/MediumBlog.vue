@@ -222,8 +222,8 @@ onMounted(fetchPosts)
           class="blog-card"
           @click="openPost(post)"
         >
-          <div class="card-image" v-if="getThumbnail(post)">
-            <img :src="getThumbnail(post)!" :alt="post.title" loading="lazy" />
+          <div class="card-image">
+            <img :src="getThumbnail(post) || '/logo.png'" :alt="post.title" loading="lazy" />
           </div>
           <div class="card-content">
             <div class="card-meta">
