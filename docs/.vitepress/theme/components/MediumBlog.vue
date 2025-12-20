@@ -23,7 +23,9 @@ const error = ref<string | null>(null)
 const selectedPost = ref<BlogPost | null>(null)
 
 const MEDIUM_RSS_URL = 'https://medium.com/feed/@BaryoDev'
-const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_RSS_URL)}`
+// Cache-bust every hour to get fresh content
+const getCacheBuster = () => Math.floor(Date.now() / (60 * 60 * 1000))
+const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(MEDIUM_RSS_URL)}&_cb=${getCacheBuster()}`
 
 const isDetailView = computed(() => selectedPost.value !== null)
 
