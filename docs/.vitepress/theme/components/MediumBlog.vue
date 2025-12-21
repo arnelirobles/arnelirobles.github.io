@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import DOMPurify from 'isomorphic-dompurify'
 
 interface BlogPost {
   title: string
@@ -54,6 +55,15 @@ const getExcerpt = (description: string, maxLength = 120): string => {
   return text.substring(0, maxLength).trim() + '...'
 }
 
+const sanitizeHtml = (html: string): string => {
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre', 'hr', 'figure', 'figcaption'],
+    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'target', 'rel', 'loading'],
+    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|sms|cid|xmpp):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+    ADD_ATTR: ['target', 'rel']
+  })
+}
+
 const openPost = (post: BlogPost) => {
   selectedPost.value = post
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -92,6 +102,8 @@ const parseRssXml = (xmlString: string): BlogPost[] => {
 
 const CACHE_KEY = 'medium_posts_cache'
 const CACHE_DURATION = 60 * 60 * 1000 // 1 hour in milliseconds
+const MAX_RETRIES = 3
+const RETRY_DELAY = 2000 // 2 seconds
 
 interface CachedData {
   posts: BlogPost[]
@@ -102,15 +114,15 @@ const getCachedPosts = (): BlogPost[] | null => {
   try {
     const cached = localStorage.getItem(CACHE_KEY)
     if (!cached) return null
-    
+
     const data: CachedData = JSON.parse(cached)
     const now = Date.now()
-    
+
     // Check if cache is still valid (less than 1 hour old)
     if (now - data.timestamp < CACHE_DURATION) {
       return data.posts
     }
-    
+
     // Cache expired, remove it
     localStorage.removeItem(CACHE_KEY)
     return null
@@ -131,11 +143,36 @@ const setCachedPosts = (postsData: BlogPost[]) => {
   }
 }
 
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+
+const fetchWithRetry = async (url: string, retries = MAX_RETRIES): Promise<Response> => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
+      const response = await fetch(url, { signal: controller.signal })
+      clearTimeout(timeoutId)
+
+      if (response.ok) return response
+
+      // Don't retry on client errors (4xx)
+      if (response.status >= 400 && response.status < 500) {
+        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`)
+      }
+    } catch (e) {
+      if (i === retries - 1) throw e
+      await sleep(RETRY_DELAY * (i + 1)) // Exponential backoff
+    }
+  }
+  throw new Error('Max retries exceeded')
+}
+
 const fetchPosts = async () => {
   try {
     loading.value = true
     error.value = null
-    
+
     // Check cache first
     const cachedPosts = getCachedPosts()
     if (cachedPosts && cachedPosts.length > 0) {
@@ -143,22 +180,35 @@ const fetchPosts = async () => {
       loading.value = false
       return
     }
-    
-    // Fetch fresh data
-    const response = await fetch(API_URL)
-    if (!response.ok) throw new Error('Failed to fetch posts')
-    
+
+    // Fetch fresh data with retry logic
+    const response = await fetchWithRetry(API_URL)
     const xmlText = await response.text()
     const parsedPosts = parseRssXml(xmlText)
-    posts.value = parsedPosts
-    
-    // Cache the posts for 1 hour
-    setCachedPosts(parsedPosts)
+
+    // Sanitize content before storing
+    posts.value = parsedPosts.map(post => ({
+      ...post,
+      content: sanitizeHtml(post.content),
+      description: sanitizeHtml(post.description)
+    }))
+
+    // Cache the sanitized posts for 1 hour
+    setCachedPosts(posts.value)
   } catch (e) {
-    error.value = e instanceof Error ? e.message : 'Failed to load blog posts'
+    const errorMessage = e instanceof Error ? e.message : 'Failed to load blog posts'
+    error.value = errorMessage.includes('aborted')
+      ? 'Request timed out. Please check your connection and try again.'
+      : errorMessage
   } finally {
     loading.value = false
   }
+}
+
+const handleImageError = (event: Event) => {
+  const img = event.target as HTMLImageElement
+  img.src = '/logo.png'
+  img.onerror = null // Prevent infinite loop
 }
 
 onMounted(fetchPosts)
@@ -174,7 +224,7 @@ onMounted(fetchPosts)
         </svg>
         Back to Blog
       </button>
-      
+
       <article class="detail-article">
         <header class="detail-header">
           <div class="detail-meta">
@@ -186,7 +236,7 @@ onMounted(fetchPosts)
             <span v-for="tag in selectedPost.categories" :key="tag" class="tag">{{ tag }}</span>
           </div>
         </header>
-        
+
         <div class="detail-content" v-html="selectedPost.content || selectedPost.description"></div>
         
         <footer class="detail-footer">
@@ -216,14 +266,19 @@ onMounted(fetchPosts)
 
       <!-- Posts Grid -->
       <div v-else class="blog-grid">
-        <div 
-          v-for="post in posts" 
-          :key="post.link" 
+        <div
+          v-for="post in posts"
+          :key="post.link"
           class="blog-card"
           @click="openPost(post)"
         >
           <div class="card-image">
-            <img :src="getThumbnail(post) || '/logo.png'" :alt="post.title" loading="lazy" />
+            <img
+              :src="getThumbnail(post) || '/logo.png'"
+              :alt="post.title"
+              loading="lazy"
+              @error="handleImageError"
+            />
           </div>
           <div class="card-content">
             <div class="card-meta">

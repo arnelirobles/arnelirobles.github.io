@@ -12,3 +12,6 @@ assets/js/bundle.js
 # VitePress
 .vitepress/dist/
 .vitepress/cache/
+
+# Internal Documentation
+developer_codes/
