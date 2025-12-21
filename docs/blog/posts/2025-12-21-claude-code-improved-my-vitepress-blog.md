@@ -305,14 +305,6 @@ AI pair programming isn't about replacing developers. It's about spending your t
 
 For $1.86, I got a blog overhaul that would have taken me an entire evening. More importantly, I learned new patterns and approaches that I'll use in future projects.
 
-## Try It Yourself
-
-The complete implementation is available in my [GitHub repo](https://github.com/arnelirobles/arnelirobles.github.io). Check out:
-
-- [IMPROVEMENTS.md](https://github.com/arnelirobles/arnelirobles.github.io/blob/master/IMPROVEMENTS.md) - Technical details
-- [QUICK_START.md](https://github.com/arnelirobles/arnelirobles.github.io/blob/master/QUICK_START.md) - How to use the new features
-- [IMPLEMENTATION_SUMMARY.md](https://github.com/arnelirobles/arnelirobles.github.io/blob/master/IMPLEMENTATION_SUMMARY.md) - What changed
-
 ## The Bottom Line
 
 **Cost**: $1.86
