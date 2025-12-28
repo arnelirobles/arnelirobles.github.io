@@ -4,21 +4,11 @@ import { useRouter } from 'vitepress'
 import type { BlogPost } from '../types/blog'
 import DOMPurify from 'isomorphic-dompurify'
 import { useLocalPosts } from '../composables/useLocalPosts'
+import { slurp, type SlurpItem } from 'feed-slurp'
 
 // Load local posts
 const { posts: localPostsRef } = useLocalPosts()
 const localPosts = localPostsRef.value
-
-interface MediumPost {
-  title: string
-  pubDate: string
-  link: string
-  thumbnail: string
-  description: string
-  content: string
-  categories: string[]
-  author: string
-}
 
 const router = useRouter()
 const mediumPosts = ref<BlogPost[]>([])
@@ -27,16 +17,6 @@ const error = ref<string | null>(null)
 const selectedFilter = ref<'all' | 'local' | 'medium'>('all')
 
 const MEDIUM_RSS_URL = 'https://medium.com/feed/@BaryoDev'
-const API_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(MEDIUM_RSS_URL)}`
-const CACHE_KEY = 'medium_posts_cache'
-const CACHE_DURATION = 60 * 60 * 1000
-const MAX_RETRIES = 3
-const RETRY_DELAY = 2000
-
-interface CachedData {
-  posts: BlogPost[]
-  timestamp: number
-}
 
 const allPosts = computed(() => {
   const combined = [...localPosts, ...mediumPosts.value]
@@ -85,121 +65,28 @@ const sanitizeHtml = (html: string): string => {
   })
 }
 
-const stripHtml = (html: string): string => {
-  const doc = new DOMParser().parseFromString(html, 'text/html')
-  return doc.body.textContent || ''
-}
-
-const getImageFromHtml = (html: string): string | null => {
-  const doc = new DOMParser().parseFromString(html, 'text/html')
-  const img = doc.querySelector('img')
-  return img?.getAttribute('src') || null
-}
-
 const getExcerpt = (description: string, maxLength = 120): string => {
-  const text = stripHtml(description)
+  const doc = new DOMParser().parseFromString(description, 'text/html')
+  const text = doc.body.textContent || ''
   if (text.length <= maxLength) return text
   return text.substring(0, maxLength).trim() + '...'
 }
 
-const parseRssXml = (xmlString: string): MediumPost[] => {
-  const parser = new DOMParser()
-  const xml = parser.parseFromString(xmlString, 'text/xml')
-  const items = xml.querySelectorAll('item')
-
-  return Array.from(items).map(item => {
-    const getTextContent = (tag: string) => item.querySelector(tag)?.textContent || ''
-    const categories = Array.from(item.querySelectorAll('category')).map(c => c.textContent || '')
-
-    const content = item.querySelector('content\\:encoded')?.textContent ||
-                   item.getElementsByTagNameNS('*', 'encoded')[0]?.textContent ||
-                   getTextContent('description')
-
-    return {
-      title: getTextContent('title'),
-      pubDate: getTextContent('pubDate'),
-      link: getTextContent('link'),
-      thumbnail: '',
-      description: getTextContent('description'),
-      content: content,
-      categories: categories,
-      author: getTextContent('dc\\:creator') || item.getElementsByTagNameNS('*', 'creator')[0]?.textContent || 'BaryoDev'
-    }
-  })
-}
-
-const convertMediumToBlogPost = (mediumPost: MediumPost): BlogPost => {
-  const thumbnail = mediumPost.thumbnail || getImageFromHtml(mediumPost.content || mediumPost.description)
-
+const convertSlurpToBlogPost = (item: SlurpItem): BlogPost => {
   return {
-    title: mediumPost.title,
-    description: sanitizeHtml(mediumPost.description),
-    date: mediumPost.pubDate,
-    url: mediumPost.link,
-    excerpt: getExcerpt(mediumPost.description),
-    author: mediumPost.author,
-    tags: mediumPost.categories,
-    categories: mediumPost.categories,
-    image: thumbnail || undefined,
+    title: item.title,
+    description: sanitizeHtml(item.description),
+    date: item.pubDate,
+    url: item.link,
+    excerpt: getExcerpt(item.description),
+    author: item.author,
+    tags: item.categories,
+    categories: item.categories,
+    image: item.thumbnail || undefined,
     featured: false,
     draft: false,
     source: 'medium'
   }
-}
-
-const getCachedPosts = (): BlogPost[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (!cached) return null
-
-    const data: CachedData = JSON.parse(cached)
-    const now = Date.now()
-
-    if (now - data.timestamp < CACHE_DURATION) {
-      return data.posts
-    }
-
-    localStorage.removeItem(CACHE_KEY)
-    return null
-  } catch {
-    return null
-  }
-}
-
-const setCachedPosts = (postsData: BlogPost[]) => {
-  try {
-    const data: CachedData = {
-      posts: postsData,
-      timestamp: Date.now()
-    }
-    localStorage.setItem(CACHE_KEY, JSON.stringify(data))
-  } catch {
-    // Ignore localStorage errors
-  }
-}
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-
-const fetchWithRetry = async (url: string, retries = MAX_RETRIES): Promise<Response> => {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000)
-
-      const response = await fetch(url, { signal: controller.signal })
-      clearTimeout(timeoutId)
-
-      if (response.ok) return response
-
-      if (response.status >= 400 && response.status < 500) {
-        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`)
-      }
-    } catch (e) {
-      if (i === retries - 1) throw e
-      await sleep(RETRY_DELAY * (i + 1))
-    }
-  }
-  throw new Error('Max retries exceeded')
 }
 
 const fetchMediumPosts = async () => {
@@ -207,24 +94,15 @@ const fetchMediumPosts = async () => {
     loading.value = true
     error.value = null
 
-    const cachedPosts = getCachedPosts()
-    if (cachedPosts && cachedPosts.length > 0) {
-      mediumPosts.value = cachedPosts
-      loading.value = false
-      return
-    }
+    const feed = await slurp(MEDIUM_RSS_URL, {
+      proxy: 'allorigins',
+      cache: true,
+      cacheTTL: 3600
+    })
 
-    const response = await fetchWithRetry(API_URL)
-    const xmlText = await response.text()
-    const parsedPosts = parseRssXml(xmlText)
-
-    mediumPosts.value = parsedPosts.map(convertMediumToBlogPost)
-    setCachedPosts(mediumPosts.value)
+    mediumPosts.value = feed.items.map(convertSlurpToBlogPost)
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : 'Failed to load Medium posts'
-    error.value = errorMessage.includes('aborted')
-      ? 'Request timed out. Check your connection and try again.'
-      : errorMessage
+    error.value = e instanceof Error ? e.message : 'Failed to load Medium posts'
     console.error('Failed to fetch Medium posts:', e)
   } finally {
     loading.value = false

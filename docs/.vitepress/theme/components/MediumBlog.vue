@@ -1,27 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import DOMPurify from 'isomorphic-dompurify'
+import { slurp, type SlurpItem } from 'feed-slurp'
 
-interface BlogPost {
-  title: string
-  pubDate: string
-  link: string
-  thumbnail: string
-  description: string
-  content: string
-  categories: string[]
-  author: string
-}
-
-const posts = ref<BlogPost[]>([])
+const posts = ref<SlurpItem[]>([])
 const loading = ref(true)
 const error = ref<string | null>(null)
-const selectedPost = ref<BlogPost | null>(null)
+const selectedPost = ref<SlurpItem | null>(null)
 
 const MEDIUM_RSS_URL = 'https://medium.com/feed/@BaryoDev'
-// Use allorigins.win - a free CORS proxy with no caching
-const API_URL = `https://api.allorigins.win/raw?url=${encodeURIComponent(MEDIUM_RSS_URL)}`
-
 const isDetailView = computed(() => selectedPost.value !== null)
 
 const formatDate = (dateString: string): string => {
@@ -44,7 +31,7 @@ const getImageFromHtml = (html: string): string | null => {
   return img?.getAttribute('src') || null
 }
 
-const getThumbnail = (post: BlogPost): string | null => {
+const getThumbnail = (post: SlurpItem): string | null => {
   if (post.thumbnail) return post.thumbnail
   return getImageFromHtml(post.content || post.description)
 }
@@ -64,7 +51,7 @@ const sanitizeHtml = (html: string): string => {
   })
 }
 
-const openPost = (post: BlogPost) => {
+const openPost = (post: SlurpItem) => {
   selectedPost.value = post
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -73,133 +60,26 @@ const closePost = () => {
   selectedPost.value = null
 }
 
-const parseRssXml = (xmlString: string): BlogPost[] => {
-  const parser = new DOMParser()
-  const xml = parser.parseFromString(xmlString, 'text/xml')
-  const items = xml.querySelectorAll('item')
-  
-  return Array.from(items).map(item => {
-    const getTextContent = (tag: string) => item.querySelector(tag)?.textContent || ''
-    const categories = Array.from(item.querySelectorAll('category')).map(c => c.textContent || '')
-    
-    // Get content from content:encoded or description
-    const content = item.querySelector('content\\:encoded')?.textContent || 
-                   item.getElementsByTagNameNS('*', 'encoded')[0]?.textContent ||
-                   getTextContent('description')
-    
-    return {
-      title: getTextContent('title'),
-      pubDate: getTextContent('pubDate'),
-      link: getTextContent('link'),
-      thumbnail: '',
-      description: getTextContent('description'),
-      content: content,
-      categories: categories,
-      author: getTextContent('dc\\:creator') || item.getElementsByTagNameNS('*', 'creator')[0]?.textContent || 'BaryoDev'
-    }
-  })
-}
-
-const CACHE_KEY = 'medium_posts_cache'
-const CACHE_DURATION = 60 * 60 * 1000 // 1 hour in milliseconds
-const MAX_RETRIES = 3
-const RETRY_DELAY = 2000 // 2 seconds
-
-interface CachedData {
-  posts: BlogPost[]
-  timestamp: number
-}
-
-const getCachedPosts = (): BlogPost[] | null => {
-  try {
-    const cached = localStorage.getItem(CACHE_KEY)
-    if (!cached) return null
-
-    const data: CachedData = JSON.parse(cached)
-    const now = Date.now()
-
-    // Check if cache is still valid (less than 1 hour old)
-    if (now - data.timestamp < CACHE_DURATION) {
-      return data.posts
-    }
-
-    // Cache expired, remove it
-    localStorage.removeItem(CACHE_KEY)
-    return null
-  } catch {
-    return null
-  }
-}
-
-const setCachedPosts = (postsData: BlogPost[]) => {
-  try {
-    const data: CachedData = {
-      posts: postsData,
-      timestamp: Date.now()
-    }
-    localStorage.setItem(CACHE_KEY, JSON.stringify(data))
-  } catch {
-    // localStorage might be full or disabled, ignore
-  }
-}
-
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
-
-const fetchWithRetry = async (url: string, retries = MAX_RETRIES): Promise<Response> => {
-  for (let i = 0; i < retries; i++) {
-    try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
-
-      const response = await fetch(url, { signal: controller.signal })
-      clearTimeout(timeoutId)
-
-      if (response.ok) return response
-
-      // Don't retry on client errors (4xx)
-      if (response.status >= 400 && response.status < 500) {
-        throw new Error(`Failed to fetch: ${response.status} ${response.statusText}`)
-      }
-    } catch (e) {
-      if (i === retries - 1) throw e
-      await sleep(RETRY_DELAY * (i + 1)) // Exponential backoff
-    }
-  }
-  throw new Error('Max retries exceeded')
-}
-
 const fetchPosts = async () => {
   try {
     loading.value = true
     error.value = null
 
-    // Check cache first
-    const cachedPosts = getCachedPosts()
-    if (cachedPosts && cachedPosts.length > 0) {
-      posts.value = cachedPosts
-      loading.value = false
-      return
-    }
-
-    // Fetch fresh data with retry logic
-    const response = await fetchWithRetry(API_URL)
-    const xmlText = await response.text()
-    const parsedPosts = parseRssXml(xmlText)
+    // Use feed-slurp for fetching and parsing
+    const feed = await slurp(MEDIUM_RSS_URL, {
+      proxy: 'allorigins',
+      cache: true,
+      cacheTTL: 3600 // 1 hour
+    })
 
     // Sanitize content before storing
-    posts.value = parsedPosts.map(post => ({
+    posts.value = feed.items.map(post => ({
       ...post,
       content: sanitizeHtml(post.content),
       description: sanitizeHtml(post.description)
     }))
-
-    // Cache the sanitized posts for 1 hour
-    setCachedPosts(posts.value)
   } catch (e) {
-    const errorMessage = e instanceof Error ? e.message : 'Failed to load blog posts'
-    error.value = errorMessage.includes('aborted')
-      ? 'Request timed out. Please check your connection and try again.'
-      : errorMessage
+    error.value = e instanceof Error ? e.message : 'Failed to load blog posts'
   } finally {
     loading.value = false
   }
