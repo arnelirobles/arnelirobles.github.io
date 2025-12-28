@@ -85,7 +85,8 @@ export default defineConfig({
                     text: 'Tech Articles',
                     items: [
                         { text: 'Introduction', link: '/tech/' },
-                        // Add more items here
+                        { text: 'BaryoDev 2.0 Enterprise', link: '/blog/posts/2025-12-28-baryodev-enterprise-ai-skills' },
+                        { text: 'Claude Code Blog Overhaul', link: '/blog/posts/2025-12-21-claude-code-improved-my-vitepress-blog' },
                     ]
                 }
             ],
