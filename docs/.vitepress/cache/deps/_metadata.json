@@ -1,50 +1,56 @@
 {
-  "hash": "e858eed3",
+  "hash": "da736d60",
   "configHash": "c91b970f",
-  "lockfileHash": "86a32399",
-  "browserHash": "12cf27d4",
+  "lockfileHash": "d4b023a7",
+  "browserHash": "cc0b1891",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "69615279",
+      "fileHash": "0845c5c4",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "43cf0b60",
+      "fileHash": "90ac25cf",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "cc9f5cfc",
+      "fileHash": "37c7bc3f",
       "needsInterop": false
     },
     "vitepress > @vueuse/integrations/useFocusTrap": {
       "src": "../../../../node_modules/@vueuse/integrations/useFocusTrap.mjs",
       "file": "vitepress___@vueuse_integrations_useFocusTrap.js",
-      "fileHash": "456ff44f",
+      "fileHash": "3807e93b",
       "needsInterop": false
     },
     "vitepress > mark.js/src/vanilla.js": {
       "src": "../../../../node_modules/mark.js/src/vanilla.js",
       "file": "vitepress___mark__js_src_vanilla__js.js",
-      "fileHash": "d0ad45c9",
+      "fileHash": "82406551",
       "needsInterop": false
     },
     "vitepress > minisearch": {
       "src": "../../../../node_modules/minisearch/dist/es/index.js",
       "file": "vitepress___minisearch.js",
-      "fileHash": "33a4bc81",
+      "fileHash": "0ab379c9",
       "needsInterop": false
     },
     "isomorphic-dompurify": {
       "src": "../../../../node_modules/isomorphic-dompurify/browser.js",
       "file": "isomorphic-dompurify.js",
-      "fileHash": "9889f6de",
+      "fileHash": "acf3f543",
       "needsInterop": true
+    },
+    "feed-slurp": {
+      "src": "../../../../node_modules/feed-slurp/dist/index.mjs",
+      "file": "feed-slurp.js",
+      "fileHash": "b9aaa244",
+      "needsInterop": false
     }
   },
   "chunks": {
